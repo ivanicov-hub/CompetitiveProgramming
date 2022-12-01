@@ -49,40 +49,66 @@ double ProcessDecimal(double y)
 
 void DrawGraph(vector<pair<double, double>>results, int intervalLength)
 {
+    ofstream outFile("output.txt");
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < intervalLength; j++)
+        {
+            cout << ".";
+        }
+        cout << endl;
+    }
+    int lines = 0;
     for (int i = 0; i < results.size() - 1; i++)
     {
+        if (lines > intervalLength)
+            break;
         results[i].second = ProcessDecimal(results[i].second);
-        float a = floor(results[i].second * 100.0) / 100.0;
-        float b = floor(results[i+1].second * 100.0) / 100.0;
+        //results[i+1].second = ProcessDecimal(results[i+1].second);
 
         double cellsY = results[i].second - results[i + 1].second;
         cellsY *= 10;
-        int cellsX = abs((results[0].first - results[i+1].first)*10);
+        cellsY = abs(round(cellsY * 1000.0) / 1000.0); //number of lines with the same number of hastags(on one interval of 0.1)
+        //cellsY = floor(cellsY);
+        int cellsX = abs((results[0].first - results[i+1].first)*10); //number of hashtags horizontally
         
-        for (int i = 0; i < cellsY; i++)
+        for (int j = 0; j < cellsY; j++)
         {
             bool hastagWritten = false;
-            for (int i = 0; i < intervalLength + 1; i++)
-            {
-                //int dots = (intervalLength + 1) - cellsX;
+            for (int k = 0; k <= intervalLength; k++)
+            {             
                 if (!hastagWritten)
                 {
-                    for (int i = 0; i < cellsX; i++)
+                    for (int l = 0; l < cellsX; l++)
                     {
                         cout << "#";
-                        hastagWritten = true;
+                        outFile << "#";
+                        hastagWritten = true;                     
+                        k++;
                     }
                 }
                 cout << ".";
+                outFile << ".";
             }
+            lines++;
             cout << endl;
+            outFile << endl;
         }
     }
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < intervalLength; j++)
+        {
+            cout << "#";
+        }
+        cout << endl;
+    }
+    outFile.close();
 }
 
 void CalculatePolynom(double l, double r, int n, vector<double>& coeffiecients)
 {
-    int intervalLenght = (r - l) * 10;
+    int intervalLenght = abs(r - l) * 10;
     double equationResult;
     double x = l;
     vector<pair<double, double>>results;
