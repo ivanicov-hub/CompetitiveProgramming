@@ -59,6 +59,7 @@ void DrawGraph(vector<pair<double, double>>results, int intervalLength)
         cout << endl;
     }
     int lines = 0;
+    //reverse(results.begin(), results.end());
     for (int i = 0; i < results.size() - 1; i++)
     {
         if (lines > intervalLength)
@@ -106,9 +107,12 @@ void DrawGraph(vector<pair<double, double>>results, int intervalLength)
     outFile.close();
 }
 
+
 void CalculatePolynom(double l, double r, int n, vector<double>& coeffiecients)
 {
     int intervalLenght = abs(r - l) * 10;
+    if (intervalLenght == 0)
+        intervalLenght++;
     double equationResult;
     double x = l;
     vector<pair<double, double>>results;
@@ -144,7 +148,7 @@ void CalculatePolynom(double l, double r, int n, vector<double>& coeffiecients)
 int main()
 {
     //preberi vhodne podatke
-    ifstream infile("C:\\Users\\icovi\\OneDrive\\Desktop\\College\\2022-2023\\ATURP\\Seminarska_naloga\\Pot_v_f(x)\\Debug\\testne_primere\\test.txt");
+    ifstream infile("C:\\Users\\icovi\\OneDrive\\Desktop\\College\\2022-2023\\ATURP\\Seminarska_naloga\\Pot_v_f(x)\\Debug\\testne_primere\\11.in");
   
     string l, r, n, polynomDegree;
     vector<double>coefficients;
